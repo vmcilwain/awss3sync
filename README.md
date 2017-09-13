@@ -1,8 +1,29 @@
 # Awss3sync
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/awss3sync`. To experiment with that code, run `bin/console` for an interactive prompt.
+A wrapper for the AWS S3 cli. It is ONLY for syncing folders from one directory to another.
+#####This gem does not copy files locally.
 
-TODO: Delete this and the text above, and describe your gem
+## Disclaimer
+
+`use at your own risk!` I am not held responsible for the use of this gem. If you are not sure it will work for you, install it on a vagrant vm and give it a try there. The Vagrantfile in this repo can to take care of configuring a useable vm.
+
+## Usage
+
+`awss3sync` - view the help menu
+
+`awss3sync list` - to list all directories
+
+`awss3ync list -f some/directory` - to list the contents of a given directory
+
+`awss3sync sync -f some/directory -t some/directory` - sync contents `from` one directory `to`	 another directory
+
+`-f` and `--from` operate the same
+
+`-t` and `--to` operate the same
+
+When syncing folders the output should look something like this:
+
+`Syncing From: directory1 To: directory2`
 
 ## Installation
 
@@ -20,16 +41,28 @@ Or install it yourself as:
 
     $ gem install awss3sync
 
-## Usage
-
-TODO: Write usage instructions here
-
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+To install this gem onto your local machine, run `bundle exec rake install`.
+
+## Releasing
+To release a new version,
+
+* update the version number in `version.rb`
+* tag the the code `git tag v*.*.*`
+* push the tag `git push --tags`
+* then run `bundle exec rake build`
+* `gem push pkg/awss3sync-version`
+
+Which will push the `.gem` file to [rubygems.org](https://rubygems.org).
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/awss3sync.
+Bug reports and pull requests are welcome on GitHub at https://github.com/vmcilwain/awss3sync. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+
+
+## License
+
+The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
