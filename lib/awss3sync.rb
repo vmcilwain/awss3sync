@@ -11,11 +11,11 @@ module Awss3sync
       end
 
       def list_contents
-        %x{aws s3 ls #{prefix}#{options[:from]}/}.gsub(/\s+PRE/, '').split("\s")
+        %x{aws s3 ls #{options[:from]}/}.split("\n").map{|str| string_to_array(str).last}
       end
 
-      def prefix
-        's3://'
+      def string_to_array(str)
+        str.split("\s")
       end
     end
 
@@ -32,34 +32,22 @@ module Awss3sync
 
     method_option :from, type: :string, required: true, aliases: :f
     method_option :to, type: :string, required: true, aliases: :t
+    method_option :protocol, type: :string, aliases: :p, default: 's3://'
     desc 'sync', 'Sync all contents from one s3 bucket to another'
     long_desc <<-LONGDESC
     -f    --from
           Directory to sync from
     -t    --to
           Directory to sync to
+    -p    --protocol
+          The protocol example: 's3://'
     LONGDESC
     def sync
       aws?
       list_contents.reject{|directory| directory == 'backups/'}.each do |dir|
         say "Syncing: #{dir} From: #{options[:from]} To: #{options[:to]}"
-        %x{aws s3 sync #{prefix}#{options[:from]}/#{dir} #{prefix}#{options[:to]}/#{dir}}
+        %x{aws s3 sync #{options[:protocol]}#{options[:from]}/#{dir} #{options[:protocol]}#{options[:to]}/#{dir}}
       end
-    end
-
-    method_option :from, type: :string, required: true, aliases: :f
-    method_option :to, type: :string, required: true, aliases: :t
-    desc 'dir', 'Sync contents of a specific directory in an s3 bucket to another'
-    long_desc <<-LONGDESC
-    -f    --from
-          Directory to sync from
-    -t    --to
-          Directory to sync to
-    LONGDESC
-    def dir
-      aws?
-      say "Syncing From: #{options[:from]} To: #{options[:to]}"
-      %x{aws s3 sync #{prefix}#{options[:from]}/ #{prefix}#{options[:to]}/}
     end
   end
 end
