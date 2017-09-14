@@ -1,7 +1,8 @@
 # Awss3sync
 
-A wrapper for the AWS S3 cli. It is ONLY for syncing folders from one directory to another.
-#####This gem does not copy files locally.
+A wrapper for the AWS S3 cli.
+
+##### This gem does not copy files locally.
 
 ## Disclaimer
 
@@ -15,11 +16,15 @@ A wrapper for the AWS S3 cli. It is ONLY for syncing folders from one directory 
 
 `awss3ync list -f some/directory` - to list the contents of a given directory
 
-`awss3sync sync -f some/directory -t some/directory` - sync contents `from` one directory `to`	 another directory
+`awss3sync sync -f some/directory -t some/directory` - sync contents `from` one directory `to` another directory
 
-`-f` and `--from` operate the same
+> Alias:
 
-`-t` and `--to` operate the same
+>`-f` = `--from`
+
+>`-t` = `--to`
+
+>`p` = `--protocol` default is s3://
 
 When syncing folders the output should look something like this:
 
